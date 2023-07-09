@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +26,10 @@ public class Todo {
 
 	private String titulo;
 	private String descricao;
+
+	@CreationTimestamp
 	private LocalDateTime dataParaFinalizar;
+
 	private boolean finalizado;
 
 }
