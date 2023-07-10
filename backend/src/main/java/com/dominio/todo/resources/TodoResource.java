@@ -2,6 +2,7 @@ package com.dominio.todo.resources;
 
 import com.dominio.todo.resources.dto.TodoCreateDto;
 import com.dominio.todo.resources.dto.TodoResultDto;
+import com.dominio.todo.resources.dto.TodoUpdateDto;
 import com.dominio.todo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,12 @@ public class TodoResource {
 		TodoResultDto newTodo = todoService.create(todoCreateDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newTodo.getId()).toUri();
 		return ResponseEntity.created(uri).body(newTodo);
+	}
+
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<TodoResultDto> update(@PathVariable Integer id, @RequestBody TodoUpdateDto todoUpdateDto) {
+		TodoResultDto todoUpdated = todoService.update(id, todoUpdateDto);
+		return ResponseEntity.ok(todoUpdated);
 	}
 
 	@DeleteMapping(path = "/{id}")

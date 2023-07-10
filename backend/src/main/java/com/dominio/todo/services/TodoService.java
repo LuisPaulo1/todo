@@ -4,6 +4,7 @@ import com.dominio.todo.domain.Todo;
 import com.dominio.todo.repositories.TodoRepository;
 import com.dominio.todo.resources.dto.TodoCreateDto;
 import com.dominio.todo.resources.dto.TodoResultDto;
+import com.dominio.todo.resources.dto.TodoUpdateDto;
 import com.dominio.todo.services.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,7 @@ public class TodoService {
 	}
 
 	public TodoResultDto findById(Integer id) {
-		Todo todo = todoRepository.findById(id)
-			.orElseThrow(() -> new ResourceNotFoundException("Todo not found"));
+		Todo todo = findTodoById(id);
 		return modelMapper.map(todo, TodoResultDto.class);
 	}
 
@@ -55,11 +55,24 @@ public class TodoService {
 	}
 
 	@Transactional
+	public TodoResultDto update(Integer id, TodoUpdateDto todoUpdateDto) {
+		Todo todo = findTodoById(id);
+		modelMapper.map(todoUpdateDto, todo);
+		todo = todoRepository.save(todo);
+		return modelMapper.map(todo, TodoResultDto.class);
+	}
+
+	@Transactional
 	public void deleteById(Integer id) {
 		try {
 			todoRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Todo not found", e.getCause());
 		}
+	}
+
+	private Todo findTodoById(Integer id) {
+		return todoRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Todo not found"));
 	}
 }

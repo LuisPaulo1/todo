@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TodoCreateDto {
-
 	private String titulo;
 	private String descricao;
 	private LocalDateTime dataParaFinalizar;
