@@ -9,12 +9,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/v1/api/todo")
 public class TodoResource {
 
 	@Autowired
 	private TodoService todoService;
+
+	@GetMapping(path = "/open")
+	public ResponseEntity<List<TodoResultDto>> listAllOpen() {
+		List<TodoResultDto> listTodos = todoService.findAllOpen();
+		return ResponseEntity.ok(listTodos);
+	}
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<TodoResultDto> findById(@PathVariable Integer id) {

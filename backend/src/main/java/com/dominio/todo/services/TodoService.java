@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TodoService {
 
@@ -16,6 +19,14 @@ public class TodoService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	public List<TodoResultDto> findAllOpen() {
+		List<Todo> listTodos = todoRepository.findAllByFinalizadoOrderByDataParaFinalizar(false);
+		List<TodoResultDto> listResultDto = listTodos.stream()
+				.map(todo -> modelMapper.map(todo, TodoResultDto.class))
+				.collect(Collectors.toList());
+		return listResultDto;
+	}
 
 	public TodoResultDto findById(Integer id) {
 		Todo todo = todoRepository.findById(id)
