@@ -7,7 +7,9 @@ import com.dominio.todo.resources.dto.TodoResultDto;
 import com.dominio.todo.services.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,6 +44,7 @@ public class TodoService {
 		return modelMapper.map(todo, TodoResultDto.class);
 	}
 
+	@Transactional
 	public TodoResultDto create(TodoCreateDto todoCreateDto) {
 		Todo todo = modelMapper.map(todoCreateDto, Todo.class);
 		if(todoCreateDto.getDataParaFinalizar().isBefore(LocalDateTime.now())) {
@@ -49,5 +52,14 @@ public class TodoService {
 		}
 		todo = todoRepository.save(todo);
 		return modelMapper.map(todo, TodoResultDto.class);
+	}
+
+	@Transactional
+	public void deleteById(Integer id) {
+		try {
+			todoRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Todo not found", e.getCause());
+		}
 	}
 }

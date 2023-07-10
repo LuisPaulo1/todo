@@ -22,7 +22,6 @@ public class Todo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private String titulo;
 	private String descricao;
 	private LocalDateTime dataParaFinalizar;
