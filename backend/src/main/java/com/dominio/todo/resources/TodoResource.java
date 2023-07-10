@@ -1,14 +1,14 @@
 package com.dominio.todo.resources;
 
+import com.dominio.todo.resources.dto.TodoCreateDto;
 import com.dominio.todo.resources.dto.TodoResultDto;
 import com.dominio.todo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,6 +40,13 @@ public class TodoResource {
 	public ResponseEntity<TodoResultDto> findById(@PathVariable Integer id) {
 		TodoResultDto todo = todoService.findById(id);
 		return ResponseEntity.ok(todo);
+	}
+
+	@PostMapping
+	public ResponseEntity<TodoResultDto> create(@RequestBody TodoCreateDto todoCreateDto) {
+		TodoResultDto newTodo = todoService.create(todoCreateDto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newTodo.getId()).toUri();
+		return ResponseEntity.created(uri).body(newTodo);
 	}
 
 }
