@@ -20,6 +20,13 @@ public class TodoService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+	public List<TodoResultDto> findAll() {
+		List<Todo> listTodos = todoRepository.findAll();
+		return listTodos.stream()
+				.map(todo -> modelMapper.map(todo, TodoResultDto.class))
+				.collect(Collectors.toList());
+	}
+
 	public List<TodoResultDto> findAllOpenOrClose(boolean finalizado) {
 		List<Todo> listTodos = todoRepository.findAllByFinalizadoOrderByDataParaFinalizar(finalizado);
 		return listTodos.stream()

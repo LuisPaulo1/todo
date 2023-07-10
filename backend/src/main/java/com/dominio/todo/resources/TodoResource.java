@@ -12,22 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/api/todo")
+@RequestMapping(path = "/v1/api/todos")
 public class TodoResource {
 
 	@Autowired
 	private TodoService todoService;
 
+	@GetMapping
+	public ResponseEntity<List<TodoResultDto>> listAll() {
+		List<TodoResultDto> listTodos = todoService.findAll();
+		return ResponseEntity.ok(listTodos);
+	}
+
 	@GetMapping(path = "/open")
 	public ResponseEntity<List<TodoResultDto>> listAllOpen() {
-		List<TodoResultDto> listTodos = todoService.findAllOpenOrClose(false);
-		return ResponseEntity.ok(listTodos);
+		List<TodoResultDto> listTodosOpen = todoService.findAllOpenOrClose(false);
+		return ResponseEntity.ok(listTodosOpen);
 	}
 
 	@GetMapping(path = "/close")
 	public ResponseEntity<List<TodoResultDto>> listAllClose() {
-		List<TodoResultDto> listTodos = todoService.findAllOpenOrClose(true);
-		return ResponseEntity.ok(listTodos);
+		List<TodoResultDto> listTodosClose = todoService.findAllOpenOrClose(true);
+		return ResponseEntity.ok(listTodosClose);
 	}
 
 	@GetMapping(path = "/{id}")
