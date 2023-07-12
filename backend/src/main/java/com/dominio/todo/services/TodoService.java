@@ -1,5 +1,9 @@
 package com.dominio.todo.services;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.dominio.todo.domain.Todo;
 import com.dominio.todo.repositories.TodoRepository;
 import com.dominio.todo.resources.dto.TodoCreateDto;
@@ -11,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TodoService {
@@ -47,7 +47,7 @@ public class TodoService {
 	@Transactional
 	public TodoResultDto create(TodoCreateDto todoCreateDto) {
 		Todo todo = modelMapper.map(todoCreateDto, Todo.class);
-		if(todoCreateDto.getDataParaFinalizar().isBefore(LocalDateTime.now())) {
+		if(todoCreateDto.getDataParaFinalizar().isBefore(LocalDate.now())) {
 			todo.setFinalizado(true);
 		}
 		todo = todoRepository.save(todo);

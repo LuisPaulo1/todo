@@ -1,7 +1,8 @@
 package com.dominio.todo.resources.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,8 @@ public class TodoResultDto {
 	private Integer id;
 	private String titulo;
 	private String descricao;
-	private LocalDateTime dataParaFinalizar;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate dataParaFinalizar;
 	private boolean finalizado;
 }

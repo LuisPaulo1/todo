@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(value = "*", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/v1/api/todos")
 public class TodoResource {
