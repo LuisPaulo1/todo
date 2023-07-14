@@ -12,6 +12,7 @@ import { ReadAllComponent } from "./components/read-all/read-all.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { MatBadgeModule } from "@angular/material/badge";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatButtonModule,
     MatIconModule,
     HttpClientModule,
+    MatBadgeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
