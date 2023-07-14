@@ -1,12 +1,12 @@
 <div class="container">
     <div class="bagde">
-        <button mat-stroked-button color="primary" matBadge="{{ closed }}">Tasks finalizadas</button>
+        <button (click)="navegarParaFinalizados()" mat-stroked-button color="primary" matBadge="{{ closed }}">Tasks finalizadas</button>
     </div>
 
     <button class="novo-todo mat-elevation-z8" mat-stroked-button color="primary">NOVO TO-DO</button>
 
-    <div class="content">
-        <mat-card class="mat-elevation-z8" *ngFor="let item of list">
+    <div class="content" *ngFor="let item of list">
+        <mat-card class="mat-elevation-z8">
             <p>Data para finalizar: {{ item.dataParaFinalizar }}</p>
             <mat-card-header>
                 <mat-card-title>{{ item.titulo }}</mat-card-title>
@@ -20,7 +20,7 @@
                 <button mat-mini-fab color="accent">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab color="warn">
+                <button (click)="delete(item.id)" mat-mini-fab color="warn">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>

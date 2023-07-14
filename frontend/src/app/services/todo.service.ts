@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environments";
 import { Todo } from "../models/todo";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: "root",
@@ -10,9 +11,22 @@ import { Todo } from "../models/todo";
 export class TodoService {
   baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snack: MatSnackBar) {}
 
   findAll(): Observable<Todo[]> {
     return this.http.get<Todo[]>(this.baseUrl);
+  }
+
+  delete(id: any): Observable<void> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete<void>(url);
+  }
+
+  message(msg: String): void {
+    this.snack.open(`${msg}`, "OK", {
+      horizontalPosition: "end",
+      verticalPosition: "top",
+      duration: 4000,
+    });
   }
 }
