@@ -5,9 +5,8 @@ import java.util.stream.Collectors;
 
 import com.dominio.todo.domain.Todo;
 import com.dominio.todo.repositories.TodoRepository;
-import com.dominio.todo.resources.dto.TodoCreateDto;
 import com.dominio.todo.resources.dto.TodoResultDto;
-import com.dominio.todo.resources.dto.TodoUpdateDto;
+import com.dominio.todo.resources.dto.TodoInputDto;
 import com.dominio.todo.services.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,16 +43,16 @@ public class TodoService {
 	}
 
 	@Transactional
-	public TodoResultDto create(TodoCreateDto todoCreateDto) {
-		Todo todo = modelMapper.map(todoCreateDto, Todo.class);
+	public TodoResultDto create(TodoInputDto todoInputDto) {
+		Todo todo = modelMapper.map(todoInputDto, Todo.class);
 		todo = todoRepository.save(todo);
 		return modelMapper.map(todo, TodoResultDto.class);
 	}
 
 	@Transactional
-	public TodoResultDto update(Integer id, TodoUpdateDto todoUpdateDto) {
+	public TodoResultDto update(Integer id, TodoInputDto todoInputDto) {
 		Todo todo = findTodoById(id);
-		modelMapper.map(todoUpdateDto, todo);
+		modelMapper.map(todoInputDto, todo);
 		todo = todoRepository.save(todo);
 		return modelMapper.map(todo, TodoResultDto.class);
 	}
