@@ -1,6 +1,5 @@
 package com.dominio.todo.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +46,6 @@ public class TodoService {
 	@Transactional
 	public TodoResultDto create(TodoCreateDto todoCreateDto) {
 		Todo todo = modelMapper.map(todoCreateDto, Todo.class);
-		if(todoCreateDto.getDataParaFinalizar().isBefore(LocalDate.now())) {
-			todo.setFinalizado(true);
-		}
 		todo = todoRepository.save(todo);
 		return modelMapper.map(todo, TodoResultDto.class);
 	}
