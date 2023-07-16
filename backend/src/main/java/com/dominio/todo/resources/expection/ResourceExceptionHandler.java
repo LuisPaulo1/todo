@@ -25,4 +25,17 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<StandardError> handleErroDeSistema(Exception e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		StandardError err = StandardError.builder()
+			.dateTime(LocalDateTime.now())
+			.status(status.value())
+			.error("Erro de sistema")
+			.message(e.getMessage())
+			.path(request.getRequestURI())
+		.build();
+		return ResponseEntity.status(status).body(err);
+	}
+
 }
