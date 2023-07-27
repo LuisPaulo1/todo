@@ -35,7 +35,7 @@ export class UpdateComponent implements OnInit {
 
   update(): void {
     this.formataData();
-    this.service.create(this.todo).subscribe({
+    this.service.update(this.todo).subscribe({
       complete: () => {
         this.service.message("Informações atualizadas com sucesso!");
         this.router.navigate([""]);
